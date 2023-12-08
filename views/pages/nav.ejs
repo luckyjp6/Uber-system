@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>Hello, world!</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand " href="#">WebSiteName</a>
+      </div>
+
+    </div>
+  </nav>
+  <div class="container">
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#home">Home</a></li>
+      <li><a href="#menu1" onclick = load_shop()>shop</a></li> <!--add load info-->
+      <li><a href="#MyOrder" onclick = Search_MyOrder()>MyOrder</a></li>
+      <li><a href="#Shop_Order" onclick = shopFilter()>Shop Order</a></li>
+      <li><a href="#Transaction_Record" onclick = tradeFilter()>Transaction Record</a></li>
+      <li><a href="#logout">Log out</a></li>
+
+    </ul>
+
+    <div class="tab-content">
+      <div id="logout" class="tab-pane fade">
+        <br /><br />
+        Are you sure you want to log out ?
+        <br /><br />
+        <button type="button" style="margin-left: 5px;" class="btn btn-info" id="logout_btn">yes</button>
+      </div>
+
+      <div id="home" class="tab-pane fade in active">
+        <h3>Profile</h3>
+        <div class="row">
+          <div class="col-xs-10">
+            <p action="get">
+              Accouont: <span id="user_account"></span><br>
+              Name: <span id="user_name"></span><br>
+              Identity: <span id="user_identity"></span><br>
+              PhoneNumber: <span id="user_phone_number"></span><br>
+              Walletbalance: <span id="user_wallet"></span><br>
+              Location: <span id="user_location"></span><br>
+            </p>
+            <button type="button " style="margin-left: 5px;" class=" btn btn-info " data-toggle="modal"
+              data-target="#location">edit location</button>
+
+            <!--  -->
+            <div class="modal fade" id="location" data-backdrop="static" tabindex="-1" role="dialog"
+              aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog  modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">edit location</h4>
+                  </div>
+                  <div class="modal-body">
+                    <label class="control-label " for="edit_latitude">latitude</label>
+                    <input type="text" class="form-control" id="edit_latitude" placeholder="enter latitude">
+                    <br>
+                    <label class="control-label " for="edit_longitude">longitude</label>
+                    <input type="text" class="form-control" id="edit_longitude" placeholder="enter longitude">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                      id="edit_location_btn">Edit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--  -->
+
+            <!-- Modal -->
+            <button type="button" style="margin-left: 5px;" class=" btn btn-info " data-toggle="modal"
+              data-target="#myModal">Add value</button>
+            <div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog"
+              aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog  modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add value</h4>
+                  </div>
+                  <div class="modal-body">
+                    <input type="text" class="form-control" id = "Add_value" placeholder="enter add value">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick = Add_value()>Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <h3>Search</h3>
+        <div class=" row  col-xs-8">
+          <div class="form-group">
+
+            <label class="control-label col-sm-1" for="Shop">Shop</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" placeholder="Enter Shop name" id="search_shop_name">
+            </div>
+
+            <label class="control-label col-sm-1" for="search_distance">distance</label>
+            <div class="col-sm-5">
+              <select class="form-control" id="search_distance">
+                <option>near</option>
+                <option>medium </option>
+                <option>far</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+
+            <label class="control-label col-sm-1" for="Price">Price</label>
+            <div class="col-sm-2">
+              <input type="text" class="form-control" id="search_price_lowerbound">
+            </div>
+            <label class="control-label col-sm-1" for="~">~</label>
+            <div class="col-sm-2">
+              <input type="text" class="form-control" id="search_price_upperbound">
+            </div>
+
+            <label class="control-label col-sm-1" for="Meal">Meal</label>
+            <div class="col-sm-5">
+              <input type="text" list="Meals" class="form-control" id="search_meal" placeholder="Enter Meal">
+              <datalist id="Meals">
+                <option value="Hamburger">
+                <option value="cofOD_df">
+              </datalist>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-1" for="category"> category</label>
+            <div class="col-sm-5">
+              <input type="text" list="categorys" class="form-control" id="search_category"
+                placeholder="Enter shop category">
+              <datalist id="categorys">
+                <option value="fast food">
+
+              </datalist>
+            </div>
+            <button type="button" style="margin-left: 18px;" class="btn btn-primary" id="search_btn"
+              onclick=search_func()>Search</button>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="  col-xs-8">
+            <div id="search_mutiple_page"></div>
+            <table class="table" style=" margin-top: 15px;">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+
+                  <th scope="col">shop name&nbsp<button type="button" class="btn-secondary"
+                      id="order_by_name">▲</button></th>
+                  <th scope="col">shop category&nbsp<button type="button" class="btn-secondary"
+                      id="order_by_cat">▲</button></th>
+                  <th scope="col">Distance&nbsp<button type="button" class="btn-secondary" id="order_by_dis">▲</button>
+                  </th>
+
+                </tr>
+              </thead>
+              <tbody id="search_result">
+                <!--<tr>
+                  <th scope="row">1</th>
+                  <td id="display_shop_name"></td>
+                  <td>fast food</td>
+                  <td>near </td>
+                  <td> <button type="button" class="btn btn-info " data-toggle="modal" data-target="#macdonald">Open
+                      menu</button></td>
+                </tr> -->
+              </tbody>
+            </table>
+
+            <!-- Modal -->
+            <div class="modal fade" id="the_menu" data-backdrop="static" tabindex="-1" role="dialog"
+              aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">menu</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <table class="table" style=" margin-top: 15px;">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Picture</th>
+
+                              <th scope="col">meal name</th>
+
+                              <th scope="col">price</th>
+                              <th scope="col">Quantity</th>
+
+                              <th scope="col">order amount</th>
+                            </tr>
+                          </thead>
+                          <tbody id="menu_context">
+
+                          </tbody>
+                        </table>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="modal-footer" id="the_price">
+                    
+                  </div>
+                  <label class="control-label col-sm-1" for="delivery_option">Type: </label>
+                  <div class="col-sm-5">
+                    <select class="form-control" id="delivery_pickup">
+                      <option>Delivery</option>
+                      <option>Pick-up</option>
+                    </select>
+                  </div>
+                  <div id="calculate_price_btn">
+                    <div class="modal-footer">
+                      <!--<button type="button" class="btn btn-default" id="calculate_price_btn">Calculate price</button>-->
+                    </div>
+                  </div>
+                  <div class="modal-footer" id="build_order_btn">
+                    <!--<button type="button" class="btn btn-default" id="build_order_btn" data-dismiss="modal">Order</button>-->
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="menu1" class="tab-pane fade">
+        <h3> Start a business </h3>
+        <div class="form-group ">
+          <div class="row">
+            <div class="col-xs-2">
+              <label for="shp1">shop name</label>
+              <input class="form-control" id="shp1" name="shopname" placeholder="macdonald" type="text">
+              <div id="shopname_used" style="color: red"></div>
+            </div>
+            <div class="col-xs-2">
+              <label for="shp2">shop category</label>
+              <input class="form-control" id="shp2" name="category" placeholder="fast food" type="text">
+            </div>
+            <div class="col-xs-2">
+              <label for="longitude">longitude</label>
+              <input class="form-control" id="shp3" name="shop_longitude" placeholder="121.00028167648875" type="text">
+            </div>
+            <div class="col-xs-2">
+              <label for="latitude">latitude</label>
+              <input class="form-control" id="shp4" name="shop_latitude" placeholder="24.78472733371133" type="text">
+            </div>
+
+          </div>
+        </div>
+
+        <div class=" row" style=" margin-top: 25px;">
+          <div class=" col-xs-3">
+            <button type="button" class="btn btn-primary" id="regshpbtn">register</button>
+          </div>
+        </div>
+
+
+        <hr>
+
+        <!-------------------------------------------------------------------------------------------->
+        <h3>ADD</h3>
+
+        <from id="addform" class="form-group " enctype='multipart/form-data'>
+          <div class="row">
+
+            <div class="col-xs-6">
+              <label for="ex3">meal name</label>
+              <input class="form-control" id="add1" type="text">
+            </div>
+          </div>
+          <div class="row" style=" margin-top: 15px;">
+            <div class="col-xs-3">
+              <label for="ex7">price</label>
+              <input class="form-control" id="add2" type="text">
+            </div>
+            <div class="col-xs-3">
+              <label for="ex4">quantity</label>
+              <input class="form-control" id="add3" type="text">
+            </div>
+          </div>
+
+
+          <div class="row" style=" margin-top: 25px;">
+
+            <div class=" col-xs-3">
+              <label for="ex12">上傳圖片</label>
+              <input id="myFile" type="file" name="myFile" multiple class="file-loading">
+
+            </div>
+            <div class=" col-xs-3">
+
+              <button id="addbtn" style=" margin-top: 15px;" type="submit" class="btn btn-primary">Add</button>
+            </div>
+          </div>
+          </form>
+
+          <div class="row">
+            <div class="  col-xs-8">
+              <table class="table" style=" margin-top: 15px;">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Picture</th>
+                    <th scope="col">meal name</th>
+
+                    <th scope="col">price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+
+                <!--modal-->
+                <div>
+                  <div class="modal fade" id="editProduct" data-backdrop="static" tabindex="-1" role="dialog"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="PdtEditLabal">Tea Edit</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col-xs-6">
+                              <label for="ex72">price</label>
+                              <input class="form-control" id="ex72" type="text" autocomplete="off">
+                            </div>
+                            <div class="col-xs-6">
+                              <label for="ex42">quantity</label>
+                              <input class="form-control" id="ex42" type="text" autocomplete="off">
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="modal-footer">
+                          <button id="editPdt" type="button" class="btn btn-secondary"
+                            data-dismiss="modal">Edit</button>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <tbody id="shpProducts">
+                    <!--shop products would go in here-->
+
+
+                  </tbody>
+              </table>
+            </div>
+
+          </div>
+
+
+      </div>
+
+      <div id="MyOrder" class="tab-pane fade">
+        <label class="control-label col-sm-1" for="MyOrder_fiter" style="margin-top: 30px;">Status</label>
+        <div class="col-sm-5">
+          <select class="form-control" id="MyOrder_fiter" style="margin-top: 30px;" onchange = Search_MyOrder()>
+            <option>All</option>
+            <option>Finished </option>
+            <option>Not Finished</option>
+            <option>Canceled</option>
+          </select>
+        </div>
+        <br>
+        <table class="table" style=" margin-top: 80px;">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Status</th>
+              <th scope="col">Start time</th>
+              <th scope="col">End time</th>
+              <th scope="col">Shop name</th>
+              <th scope="col">Total Price</th>
+              <th scope="col">Order Details</th>
+              <th scope="col">Action</th>
+
+            </tr>
+          </thead>
+          <tbody id="MyOrder_result">
+            
+          </tbody>
+        </table>
+        <div class="modal-footer">
+          <td><button type='button' class='btn btn-danger' onClick = Cancel_orders()>Cancel selected orders</button></td>
+        </div>
+      </div>
+      
+      <div class="modal fade" id="MyOrder_details" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Order</h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-xs-12">
+                  <table class="table" style=" margin-top: 15px;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Picture</th>
+                        <th scope="col">meal name</th>
+                        <th scope="col">price</th>
+                        <th scope="col">Order Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody id="MyOrder_details_context">
+
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+            <div class="modal-footer" id="MyOrder_details_price">
+              
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div id="Shop_Order" class="tab-pane fade">
+        <label class="control-label col-sm-1" for="sf" style="margin-top: 30px;">Status</label>
+        <form class="col-sm-5" id="sf-form">
+          <select onchange="shopFilter()" class="form-control" name="sf" id="sf" style="margin-top: 30px;">
+            <option value="a" selected="true">All</option>
+            <option value="F">Finished </option>
+            <option value="N">Not Finished</option>
+            <option value="C">Canceled</option>
+          </select>
+        </form>
+        <br>
+
+        <table class="table" style="margin-top: 80px;">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Satus</th>
+              <th scope="col">Start</th>
+              <th scope="col">End</th>
+              <th scope="col">Shop name</th>
+              <th scope="col">Total price</th>
+              <th scope="col">Other details</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="sfr">
+            <!--order go in here-->
+          </tbody>
+  
+        </table>
+
+        <div class="modal-footer">
+          <td><button type='button' class='btn btn-success' onClick = done()>Done</button></td>
+          <td><button type='button' class='btn btn-danger' onClick = cancel()>Cancel</button></td>
+
+        </div>
+
+        <!--Modal -->
+        <div class="modal fade" id="order-details" data-backdrop="static" tabindex="-1" role="dialog"
+          aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Order</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="  col-xs-12">
+                    <table class="table" style=" margin-top: 15px;">
+                      <thead>
+                        <tr>
+                          <th scope="col">Picture</th>
+
+                          <th scope="col">meal name</th>
+
+                          <th scope="col">price</th>
+                          <th scope="col">Quantity</th>
+
+                        </tr>
+                      </thead>
+                      <tbody id="SOD">
+                        <!-- SOD details -->
+
+
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+              <h4 id="OD_subtol" style="text-align:right; margin-right:50px">Subtotal $0</h4>
+              <h5 id="OD_df"style="text-align:right; margin-right:50px">Subtotal $0</h5>
+              <h4 id="OD_tp" style="text-align:right; margin-right:50px">Total price $0</h4>
+
+
+            </div>
+
+          </div>
+        </div> 
+
+      </div>
+       
+      <div id="Transaction_Record" class="tab-pane fade">
+        <label class="control-label col-sm-1" for="tf" style="margin-top: 30px;">Action</label>
+        <form class="col-sm-5" id="tf-form">
+          <select onchange="tradeFilter()" class="form-control" name="tf" id="tf" style="margin-top: 30px;">
+            <option value="a" selected="true">All</option>
+            <option value="Payment">Payment</option>
+            <option value="Received">Recieved</option>
+            <option value="Recharge">Recharge</option>
+          </select>
+        </form>
+        <br>
+        <table class="table" style=" margin-top: 80px;">
+          <thead>
+            <tr>
+              <th scope="col">Record ID</th>
+              <th scope="col">Action</th>
+              <th scope="col">Time</th>
+              <th scope="col">Trader</th>
+              <th scope="col">Ammount change</th>
+            </tr>
+          </thead>
+          <tbody id="tfr">
+            <!--rescords go in here-->
+          </tbody>
+      </div>
+
+    </div>
+  </div>
+
+  
+
+  </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="js/shop_order.js"></script>
+  <script src="js/trans_record.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/home.js"></script>
+  
+  
+
+
+
+  <!--<script src="js/nav.js"></script>-->
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
+
+  <!-- Option 2: Separate Popper and Bootstrap JS -->
+  <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>
